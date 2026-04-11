@@ -1,12 +1,12 @@
-package com.example.focusmodejv.ui;
+package com.example.focusmodejv.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.focusmodejv.R;
+import com.google.android.material.card.MaterialCardView;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -15,13 +15,23 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        Button btnWork = findViewById(R.id.btnWork);
-        Button btnShortBreak = findViewById(R.id.btnShortBreak);
-        Button btnLongBreak = findViewById(R.id.btnLongBreak);
+        MaterialCardView cardStudy = findViewById(R.id.cardStudy);
+        MaterialCardView cardReading = findViewById(R.id.cardReading);
+        MaterialCardView cardCoding = findViewById(R.id.cardCoding);
+        MaterialCardView cardSport = findViewById(R.id.cardSport);
 
-        btnWork.setOnClickListener(v -> finishWithResult(25));
-        btnShortBreak.setOnClickListener(v -> finishWithResult(5));
-        btnLongBreak.setOnClickListener(v -> finishWithResult(15));
+        if (cardStudy != null) {
+            cardStudy.setOnClickListener(v -> finishWithResult(45));
+        }
+        if (cardReading != null) {
+            cardReading.setOnClickListener(v -> finishWithResult(30));
+        }
+        if (cardCoding != null) {
+            cardCoding.setOnClickListener(v -> finishWithResult(60));
+        }
+        if (cardSport != null) {
+            cardSport.setOnClickListener(v -> finishWithResult(20));
+        }
     }
 
     private void finishWithResult(int focusTime) {

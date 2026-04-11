@@ -1,56 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="20dp"
-    android:background="#000000">
+    android:background="#000000"
+    android:padding="24dp">
 
-    <TextView
-        android:id="@+id/tvClock"
+    <!-- Top Toggle -->
+    <LinearLayout
+        android:id="@+id/toggleContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25:00"
-        android:textSize="48sp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/tab_container_bg"
+        android:padding="4dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvSessionCounter"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:text="Stopwatch"
+            android:textColor="#888888"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_bg_selected"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:text="Timer"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Timer Label -->
+    <LinearLayout
+        android:id="@+id/timerLabelLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sessions: 0"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="30dp"/>
+        android:layout_below="@id/toggleContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnStart"
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@android:color/holo_green_light"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timer >"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Clock Cards -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomControls"
+        android:layout_below="@id/timerLabelLayout"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Minutes Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="#1A1A1A"
+            app:cardCornerRadius="32dp"
+            app:strokeWidth="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvMinutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="45"
+                    android:textColor="#B0B0B0"
+                    android:textSize="160sp"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:background="#000000" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Seconds Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="#1A1A1A"
+            app:cardCornerRadius="32dp"
+            app:strokeWidth="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvSeconds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="00"
+                    android:textColor="#B0B0B0"
+                    android:textSize="160sp"
+                    android:textStyle="bold"
+                    android:includeFontPadding="false"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:background="#000000" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <!-- Bottom Controls -->
+    <LinearLayout
+        android:id="@+id/bottomControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start"/>
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnPause"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pause"
-        android:layout_marginTop="10dp"/>
+        <ImageButton
+            android:id="@+id/btnCategories"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/timer_card_bg"
+            android:src="@drawable/ic_settings"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Settings" />
 
-    <Button
-        android:id="@+id/btnReset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        android:layout_marginTop="10dp"/>
+        <View
+            android:layout_width="40dp"
+            android:layout_height="0dp" />
 
-    <Button
-        android:id="@+id/btnCategories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Categories"
-        android:layout_marginTop="20dp"/>
+        <ImageButton
+            android:id="@+id/btnStart"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/timer_card_bg"
+            android:src="@drawable/ic_play"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Start" />
 
-</LinearLayout>
+        <View
+            android:layout_width="40dp"
+            android:layout_height="0dp" />
+
+        <ImageButton
+            android:id="@+id/btnStats"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/timer_card_bg"
+            android:src="@drawable/ic_stats"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Stats" />
+
+    </LinearLayout>
+
+    <!-- Hidden views for compatibility with existing code -->
+    <TextView android:id="@+id/tvClock" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+    <TextView android:id="@+id/tvSessionCounter" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+    <Button android:id="@+id/btnPause" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+    <Button android:id="@+id/btnReset" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+
+</RelativeLayout>

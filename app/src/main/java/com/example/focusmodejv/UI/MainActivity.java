@@ -1,9 +1,9 @@
-package com.example.focusmodejv.ui;
+package com.example.focusmodejv.UI;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +19,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvClock, tvSession;
-    private Button btnStart, btnPause, btnReset, btnCategory;
+    private TextView tvMinutes, tvSeconds, tvSession;
+    private ImageButton btnStart, btnCategory, btnStats;
 
     private TimerManager timerManager;
 
@@ -34,12 +34,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvClock = findViewById(R.id.tvClock);
-        tvSession = findViewById(R.id.tvSessionCounter);
+        tvMinutes = findViewById(R.id.tvMinutes);
+        tvSeconds = findViewById(R.id.tvSeconds);
         btnStart = findViewById(R.id.btnStart);
-        btnPause = findViewById(R.id.btnPause);
-        btnReset = findViewById(R.id.btnReset);
         btnCategory = findViewById(R.id.btnCategories);
+        btnStats = findViewById(R.id.btnStats);
 
         timerManager = new TimerManager(defaultTime);
 
@@ -64,18 +63,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         sessionCount++;
-                        tvSession.setText("Sessions: " + sessionCount);
+                        // tvSession.setText("Sessions: " + sessionCount);
                         Toast.makeText(MainActivity.this, "Done 🔥", Toast.LENGTH_SHORT).show();
                     }
                 })
         );
-
-        btnPause.setOnClickListener(v -> timerManager.pause());
-
-        btnReset.setOnClickListener(v -> {
-            timerManager.reset(defaultTime);
-            updateTime(defaultTime);
-        });
 
         btnCategory.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
@@ -89,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
         int min = (int) millis / 1000 / 60;
         int sec = (int) millis / 1000 % 60;
 
-        String time = String.format(Locale.getDefault(), "%02d:%02d", min, sec);
-
-        tvClock.setText(time);
+        if (tvMinutes != null) tvMinutes.setText(String.format(Locale.getDefault(), "%02d", min));
+        if (tvSeconds != null) tvSeconds.setText(String.format(Locale.getDefault(), "%02d", sec));
     }
 }
