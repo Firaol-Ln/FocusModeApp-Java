@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.focusmodejv.R;
 import com.example.focusmodejv.timer.TimerManager;
-import com.example.focusmodejv.ui.CategoryActivity;
+import com.example.focusmodejv.UI.CategoryActivity;
 
 import java.util.Locale;
 
