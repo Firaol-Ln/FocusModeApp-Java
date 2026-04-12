@@ -5,10 +5,14 @@
     <application
         android:allowBackup="true"
         android:label="FocusModeJv"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.FocusModeJv">
 
         <activity
             android:name=".ui.CategoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.StatsActivity"
             android:exported="false" />
 
         <activity

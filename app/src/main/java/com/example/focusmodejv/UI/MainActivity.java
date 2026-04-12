@@ -1,4 +1,4 @@
-package com.example.focusmodejv.UI;
+package com.example.focusmodejv.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.focusmodejv.R;
+import com.example.focusmodejv.data.DatabaseHelper;
 import com.example.focusmodejv.timer.TimerManager;
-import com.example.focusmodejv.UI.CategoryActivity;
+import com.example.focusmodejv.ui.CategoryActivity;
+import com.example.focusmodejv.ui.StatsActivity;
 
 import java.util.Locale;
 
@@ -23,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnStart, btnCategory, btnStats;
 
     private TimerManager timerManager;
+    private DatabaseHelper dbHelper;
 
+    private long currentFocusDuration = 0;
     private long defaultTime = 25 * 60 * 1000;
     private int sessionCount = 0;
 
@@ -34,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DatabaseHelper(this);
+        
         tvMinutes = findViewById(R.id.tvMinutes);
         tvSeconds = findViewById(R.id.tvSeconds);
         btnStart = findViewById(R.id.btnStart);
         btnCategory = findViewById(R.id.btnCategories);
         btnStats = findViewById(R.id.btnStats);
 
+        currentFocusDuration = defaultTime;
         timerManager = new TimerManager(defaultTime);
 
         launcher = registerForActivityResult(
@@ -47,9 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         int minutes = result.getData().getIntExtra("focus_time", 25);
-                        defaultTime = minutes * 60 * 1000L;
-                        timerManager.reset(defaultTime);
-                        updateTime(defaultTime);
+                        currentFocusDuration = minutes * 60 * 1000L;
+                        defaultTime = currentFocusDuration;
+                        timerManager.reset(currentFocusDuration);
+                        updateTime(currentFocusDuration);
                     }
                 });
 
@@ -63,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         sessionCount++;
-                        // tvSession.setText("Sessions: " + sessionCount);
+                        dbHelper.addSession(currentFocusDuration, System.currentTimeMillis());
                         Toast.makeText(MainActivity.this, "Done 🔥", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -72,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
         btnCategory.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
             launcher.launch(intent);
+        });
+
+        btnStats.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+            startActivity(intent);
         });
 
         updateTime(defaultTime);

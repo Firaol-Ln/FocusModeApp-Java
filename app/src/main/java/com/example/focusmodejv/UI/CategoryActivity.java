@@ -1,4 +1,4 @@
-package com.example.focusmodejv.UI;
+package com.example.focusmodejv.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
