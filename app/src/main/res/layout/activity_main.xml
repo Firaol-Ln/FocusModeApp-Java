@@ -64,6 +64,7 @@
 
     <!-- Clock Cards -->
     <LinearLayout
+        android:id="@+id/clockContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomControls"
@@ -75,66 +76,190 @@
 
         <!-- Minutes Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMinutes"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginBottom="12dp"
             app:cardBackgroundColor="#1A1A1A"
             app:cardCornerRadius="32dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
             app:strokeWidth="0dp">
 
             <FrameLayout
+                android:id="@+id/flMinutesCardRoot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tvMinutes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="45"
-                    android:textColor="#B0B0B0"
-                    android:textSize="160sp"
-                    android:textStyle="bold"
-                    android:includeFontPadding="false"/>
+                <!-- 1. Top Next (Background) -->
+                <FrameLayout
+                    android:id="@+id/flMinutesTopNextContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true">
+                    <TextView
+                        android:id="@+id/tvMinutesTopNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="25"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- 2. Bottom Current (Static) -->
+                <FrameLayout
+                    android:id="@+id/flMinutesBottomContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true">
+                    <TextView
+                        android:id="@+id/tvMinutesBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="25"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- 3. The Flap (Animated) -->
+                <FrameLayout
+                    android:id="@+id/flMinutesFlip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true"
+                    android:visibility="invisible">
+                    <TextView
+                        android:id="@+id/tvMinutesFlip"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="25"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false"
+                        android:background="#1A1A1A" />
+
+                    <View
+                        android:id="@+id/vMinutesFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#AA000000"
+                        android:alpha="0" />
+                </FrameLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1.5dp"
                     android:layout_gravity="center"
-                    android:background="#000000" />
+                    android:background="#000000"
+                    android:elevation="4dp" />
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Seconds Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSeconds"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:cardBackgroundColor="#1A1A1A"
             app:cardCornerRadius="32dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
             app:strokeWidth="0dp">
 
             <FrameLayout
+                android:id="@+id/flSecondsCardRoot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!-- 1. Top Next -->
+                <FrameLayout
+                    android:id="@+id/flSecondsTopNextContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true">
+                    <TextView
+                        android:id="@+id/tvSecondsTopNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="00"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- 2. Bottom Current -->
+                <FrameLayout
+                    android:id="@+id/flSecondsBottomContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true">
+                    <TextView
+                        android:id="@+id/tvSecondsBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="00"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false" />
+                </FrameLayout>
+
+                <!-- 3. The Flap -->
+                <FrameLayout
+                    android:id="@+id/flSecondsFlip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="true"
+                    android:visibility="invisible">
+                    <TextView
+                        android:id="@+id/tvSecondsFlip"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="00"
+                        android:textColor="#B0B0B0"
+                        android:textSize="160sp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false"
+                        android:background="#1A1A1A" />
+                    <View
+                        android:id="@+id/vSecondsFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#AA000000"
+                        android:alpha="0" />
+                </FrameLayout>
+
                 <TextView
-                    android:id="@+id/tvSeconds"
+                    android:id="@+id/tvMilliseconds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="16dp"
                     android:text="00"
-                    android:textColor="#B0B0B0"
-                    android:textSize="160sp"
-                    android:textStyle="bold"
-                    android:includeFontPadding="false"/>
+                    android:textColor="#888888"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1.5dp"
                     android:layout_gravity="center"
-                    android:background="#000000" />
+                    android:background="#000000"
+                    android:elevation="4dp" />
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -189,11 +314,5 @@
             android:contentDescription="Stats" />
 
     </LinearLayout>
-
-    <!-- Hidden views for compatibility with existing code -->
-    <TextView android:id="@+id/tvClock" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
-    <TextView android:id="@+id/tvSessionCounter" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
-    <Button android:id="@+id/btnPause" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
-    <Button android:id="@+id/btnReset" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
 
 </RelativeLayout>

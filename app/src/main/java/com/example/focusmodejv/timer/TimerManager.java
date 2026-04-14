@@ -1,4 +1,3 @@
-
 package com.example.focusmodejv.timer;
 
 import android.os.CountDownTimer;
@@ -21,7 +20,8 @@ public class TimerManager {
     public void start(TimerListener listener) {
         if (isRunning) return;
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        // Use 16ms interval for ~60fps updates (good for milliseconds display)
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 16) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -47,10 +47,7 @@ public class TimerManager {
     }
 
     public void reset(long newTime) {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-        isRunning = false;
+        pause();
         timeLeftInMillis = newTime;
     }
 
