@@ -108,6 +108,13 @@
                         android:textSize="160sp"
                         android:textStyle="bold"
                         android:includeFontPadding="false" />
+
+                    <View
+                        android:id="@+id/vMinutesFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0"
+                        android:background="#AA000000" />
                 </FrameLayout>
 
                 <!-- 2. Bottom Current (Static) -->
@@ -147,17 +154,11 @@
                         android:includeFontPadding="false"
                         android:background="#1A1A1A" />
 
-                    <View
-                        android:id="@+id/vMinutesFlipShadow"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#AA000000"
-                        android:alpha="0" />
                 </FrameLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
+                    android:layout_height="2.0dp"
                     android:layout_gravity="center"
                     android:background="#000000"
                     android:elevation="4dp" />
@@ -197,6 +198,13 @@
                         android:textSize="160sp"
                         android:textStyle="bold"
                         android:includeFontPadding="false" />
+
+                    <View
+                        android:id="@+id/vSecondsFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0"
+                        android:background="#AA000000" />
                 </FrameLayout>
 
                 <!-- 2. Bottom Current -->
@@ -235,12 +243,7 @@
                         android:textStyle="bold"
                         android:includeFontPadding="false"
                         android:background="#1A1A1A" />
-                    <View
-                        android:id="@+id/vSecondsFlipShadow"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#AA000000"
-                        android:alpha="0" />
+
                 </FrameLayout>
 
                 <TextView
@@ -256,7 +259,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
+                    android:layout_height="2.0dp"
                     android:layout_gravity="center"
                     android:background="#000000"
                     android:elevation="4dp" />
