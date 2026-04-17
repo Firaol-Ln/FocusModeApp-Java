@@ -49,12 +49,14 @@
         android:orientation="horizontal">
 
         <View
+            android:id="@+id/timerIndicator"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:background="@android:color/holo_green_light"
             android:layout_marginEnd="8dp" />
 
         <TextView
+            android:id="@+id/timerLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timer >"
@@ -108,13 +110,6 @@
                         android:textSize="160sp"
                         android:textStyle="bold"
                         android:includeFontPadding="false" />
-
-                    <View
-                        android:id="@+id/vMinutesFlipShadow"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0"
-                        android:background="#AA000000" />
                 </FrameLayout>
 
                 <!-- 2. Bottom Current (Static) -->
@@ -154,6 +149,12 @@
                         android:includeFontPadding="false"
                         android:background="#1A1A1A" />
 
+                    <View
+                        android:id="@+id/vMinutesFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#AA000000"
+                        android:alpha="0" />
                 </FrameLayout>
 
                 <View
@@ -198,13 +199,6 @@
                         android:textSize="160sp"
                         android:textStyle="bold"
                         android:includeFontPadding="false" />
-
-                    <View
-                        android:id="@+id/vSecondsFlipShadow"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0"
-                        android:background="#AA000000" />
                 </FrameLayout>
 
                 <!-- 2. Bottom Current -->
@@ -244,6 +238,12 @@
                         android:includeFontPadding="false"
                         android:background="#1A1A1A" />
 
+                    <View
+                        android:id="@+id/vSecondsFlipShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#AA000000"
+                        android:alpha="0" />
                 </FrameLayout>
 
                 <TextView

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.focusmodejv.R;
 import com.example.focusmodejv.data.DatabaseHelper;
+import com.example.focusmodejv.timer.TimerBottomSheet;
 import com.example.focusmodejv.timer.TimerManager;
 
 import java.util.Locale;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvSecondsTopNext, tvSecondsBottom, tvSecondsFlip;
     private View flMinutesFlip, flSecondsFlip, vMinutesShadow, vSecondsShadow;
     private TextView tvMilliseconds;
-    private ImageButton btnStart, btnCategory, btnStats;
+    private ImageButton btnStart, btnCategory, btnStats, btnReset;
 
     private TimerManager timerManager;
     private DatabaseHelper dbHelper;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     
     private String lastSecond = "00";
     private String lastMinute = "25";
+
+    private android.net.Uri selectedSoundUri = android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_NOTIFICATION);
 
     private ActivityResultLauncher<Intent> launcher;
 
@@ -66,6 +69,56 @@ public class MainActivity extends AppCompatActivity {
         btnCategory = findViewById(R.id.btnCategories);
         btnStats = findViewById(R.id.btnStats);
 
+        android.widget.LinearLayout timerLabelLayout = findViewById(R.id.timerLabelLayout);
+        if (timerLabelLayout != null) {
+            timerLabelLayout.setOnClickListener(v -> {
+                TimerBottomSheet bottomSheet = new TimerBottomSheet();
+                bottomSheet.setListener((hours, minutes, seconds, color, tag, soundUri) -> {
+                    long newDuration = (hours * 3600L + minutes * 60L + seconds) * 1000L;
+                    if (newDuration > 0) {
+                        currentFocusDuration = newDuration;
+                        defaultTime = currentFocusDuration;
+                        timerManager.reset(currentFocusDuration);
+                        updateUI(currentFocusDuration, false);
+                    }
+                    View indicator = findViewById(R.id.timerIndicator);
+                    if (indicator != null) indicator.setBackgroundColor(color);
+                    TextView label = findViewById(R.id.timerLabel);
+                    if (label != null) label.setText(tag + " >");
+                    
+                    selectedSoundUri = soundUri;
+                });
+                bottomSheet.show(getSupportFragmentManager(), "TimerBottomSheet");
+            });
+        }
+
+        btnReset = new ImageButton(this);
+        android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
+                (int) (56 * getResources().getDisplayMetrics().density),
+                (int) (56 * getResources().getDisplayMetrics().density)
+        );
+        btnReset.setLayoutParams(params);
+        btnReset.setBackgroundResource(R.drawable.timer_card_bg);
+        btnReset.setImageResource(android.R.drawable.ic_popup_sync);
+        btnReset.setColorFilter(android.graphics.Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        btnReset.setPadding(padding, padding, padding, padding);
+        btnReset.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        btnReset.setVisibility(View.GONE);
+        btnReset.setContentDescription("Reset");
+
+        android.widget.LinearLayout bottomControls = findViewById(R.id.bottomControls);
+        bottomControls.addView(btnReset, 0);
+
+        btnReset.setOnClickListener(v -> {
+            timerManager.reset(currentFocusDuration);
+            updateUI(currentFocusDuration, false);
+            btnStart.setImageResource(R.drawable.ic_play);
+            btnReset.setVisibility(View.GONE);
+            btnCategory.setVisibility(View.VISIBLE);
+            btnStats.setVisibility(View.VISIBLE);
+        });
+
         timerManager = new TimerManager(defaultTime);
 
         launcher = registerForActivityResult(
@@ -86,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
                 btnStart.setImageResource(R.drawable.ic_play);
             } else {
                 btnStart.setImageResource(R.drawable.ic_pause);
+                btnCategory.setVisibility(View.GONE);
+                btnReset.setVisibility(View.VISIBLE);
+                btnStats.setVisibility(View.INVISIBLE);
+                
                 timerManager.start(new TimerManager.TimerListener() {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -98,6 +155,15 @@ public class MainActivity extends AppCompatActivity {
                         dbHelper.addSession(currentFocusDuration, System.currentTimeMillis());
                         Toast.makeText(MainActivity.this, "Focus Session Complete! 🔥", Toast.LENGTH_SHORT).show();
                         updateUI(0, false);
+                        
+                        if (selectedSoundUri != null) {
+                            android.media.Ringtone r = android.media.RingtoneManager.getRingtone(getApplicationContext(), selectedSoundUri);
+                            if (r != null) r.play();
+                        }
+                        
+                        btnReset.setVisibility(View.GONE);
+                        btnCategory.setVisibility(View.VISIBLE);
+                        btnStats.setVisibility(View.VISIBLE);
                     }
                 });
             }
