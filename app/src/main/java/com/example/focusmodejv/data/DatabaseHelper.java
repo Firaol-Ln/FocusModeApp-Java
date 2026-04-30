@@ -13,12 +13,13 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FocusApp.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_SESSIONS = "sessions";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_DURATION_MS = "duration_ms";
-    private static final String COLUMN_TIMESTAMP = "timestamp";
+    private static final String COLUMN_START_TIME = "start_time";
+    private static final String COLUMN_END_TIME = "end_time";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,8 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_SESSIONS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_DURATION_MS + " INTEGER, " +
-                COLUMN_TIMESTAMP + " INTEGER" +
+                COLUMN_START_TIME + " INTEGER, " +
+                COLUMN_END_TIME + " INTEGER, " +
+                COLUMN_DURATION_MS + " INTEGER" +
                 ")";
         db.execSQL(createTable);
     }
@@ -41,11 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert a new completed session
-    public void addSession(long durationMs, long timestampMs) {
+    public void addSession(long startTimeMs, long endTimeMs, long durationMs) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_START_TIME, startTimeMs);
+        values.put(COLUMN_END_TIME, endTimeMs);
         values.put(COLUMN_DURATION_MS, durationMs);
-        values.put(COLUMN_TIMESTAMP, timestampMs);
         db.insert(TABLE_SESSIONS, null, values);
         db.close();
     }
@@ -56,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long totalDuration = 0;
 
         String query = "SELECT SUM(" + COLUMN_DURATION_MS + ") FROM " + TABLE_SESSIONS +
-                " WHERE " + COLUMN_TIMESTAMP + " >= ? AND " + COLUMN_TIMESTAMP + " <= ?";
+                " WHERE " + COLUMN_END_TIME + " >= ? AND " + COLUMN_END_TIME + " <= ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(startTimestampMs), String.valueOf(endTimestampMs)});
 
@@ -76,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_SESSIONS +
-                " WHERE " + COLUMN_TIMESTAMP + " >= ? AND " + COLUMN_TIMESTAMP + " <= ? ORDER BY " + COLUMN_TIMESTAMP + " ASC";
+                " WHERE " + COLUMN_END_TIME + " >= ? AND " + COLUMN_END_TIME + " <= ? ORDER BY " + COLUMN_END_TIME + " ASC";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(startTimestampMs), String.valueOf(endTimestampMs)});
 
@@ -84,8 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Session session = new Session(
                         cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                        cursor.getLong(cursor.getColumnIndex(COLUMN_DURATION_MS)),
-                        cursor.getLong(cursor.getColumnIndex(COLUMN_TIMESTAMP))
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_START_TIME)),
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_END_TIME)),
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_DURATION_MS))
                 );
                 sessions.add(session);
             } while (cursor.moveToNext());
@@ -96,16 +100,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sessions;
     }
 
+    // Clear all sessions
+    public void clearAllSessions() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SESSIONS, null, null);
+        db.close();
+    }
+
     // Session Data Model
     public static class Session {
         public int id;
+        public long startTimeMs;
+        public long endTimeMs;
         public long durationMs;
-        public long timestampMs;
 
-        public Session(int id, long durationMs, long timestampMs) {
+        public Session(int id, long startTimeMs, long endTimeMs, long durationMs) {
             this.id = id;
+            this.startTimeMs = startTimeMs;
+            this.endTimeMs = endTimeMs;
             this.durationMs = durationMs;
-            this.timestampMs = timestampMs;
         }
     }
 }

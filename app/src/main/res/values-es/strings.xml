@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Focus Mode Jv</string>
+    <string name="settings">Ajustes</string>
+    <string name="tools">Herramientas</string>
+    <string name="personalize">Personalizar</string>
+    <string name="general">General</string>
+    <string name="privacy">Privacidad</string>
+    <string name="about">Acerca de</string>
+
+    <string name="floating_clock">Reloj Flotante</string>
+    <string name="floating_clock_desc">Mostrar un reloj flotante sobre otras aplicaciones</string>
+    <string name="clock_widget">Widget de Reloj</string>
+    <string name="clock_widget_desc">Configurar y añadir un widget de reloj a la pantalla de inicio</string>
+    <string name="clock_wallpaper">Fondo de Pantalla de Reloj</string>
+    <string name="clock_wallpaper_desc">Previsualizar y establecer reloj de flip como fondo de pantalla en vivo</string>
+    <string name="language">Idioma</string>
+    <string name="language_desc">Cambiar el idioma de la aplicación</string>
+    <string name="reset_data">Restablecer todos los datos</string>
+    <string name="reset_data_desc">Borrar todas las sesiones y ajustes</string>
+
+    <string name="focus_time">Tiempo de Enfoque</string>
+    <string name="break_time">Tiempo de Descanso</string>
+    <string name="start">Iniciar</string>
+    <string name="reset">Restablecer</string>
+
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="grant">Conceder</string>
+    <string name="permission_required">Permiso Requerido</string>
+    <string name="reset_confirmation_title">¿Restablecer todos los datos?</string>
+    <string name="reset_confirmation_msg">Esto eliminará permanentemente todas las sesiones y ajustes. Esta acción no se puede deshacer.</string>
+</resources>

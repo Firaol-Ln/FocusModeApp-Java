@@ -26,6 +26,11 @@ import java.util.Locale;
 
 public class StatsActivity extends AppCompatActivity {
 
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
+
     private TextView tabDay, tabWeek, tabMonth, tabYear;
     private TextView tvCurrentDate, tvTotalDuration, tvCurrentDuration;
     private ImageButton btnPrev, btnNext;
@@ -82,20 +87,20 @@ public class StatsActivity extends AppCompatActivity {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
-        xAxis.setGridColor(Color.parseColor("#333333"));
-        xAxis.setGridLineWidth(1f);
+        xAxis.setGridColor(Color.LTGRAY);
+        xAxis.setGridLineWidth(0.5f);
         xAxis.enableGridDashedLine(10f, 10f, 0f);
         xAxis.setDrawAxisLine(true);
-        xAxis.setAxisLineColor(Color.parseColor("#333333"));
-        xAxis.setTextColor(Color.parseColor("#888888"));
+        xAxis.setAxisLineColor(Color.LTGRAY);
+        xAxis.setTextColor(Color.GRAY);
         xAxis.setGranularity(1f);
 
         YAxis leftAxis = lineChart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.parseColor("#333333"));
-        leftAxis.setGridLineWidth(1f);
+        leftAxis.setGridColor(Color.LTGRAY);
+        leftAxis.setGridLineWidth(0.5f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setTextColor(Color.parseColor("#888888"));
+        leftAxis.setTextColor(Color.GRAY);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawAxisLine(false);
         leftAxis.setXOffset(10f);
@@ -130,16 +135,16 @@ public class StatsActivity extends AppCompatActivity {
         
         // Update Tab Selection UI
         tabDay.setBackgroundResource(mode == Mode.DAY ? R.drawable.tab_bg_selected : 0);
-        tabDay.setTextColor(mode == Mode.DAY ? Color.WHITE : Color.parseColor("#888888"));
+        tabDay.setTextColor(mode == Mode.DAY ? getResources().getColor(R.color.text_primary) : getResources().getColor(R.color.text_secondary));
 
         tabWeek.setBackgroundResource(mode == Mode.WEEK ? R.drawable.tab_bg_selected : 0);
-        tabWeek.setTextColor(mode == Mode.WEEK ? Color.WHITE : Color.parseColor("#888888"));
+        tabWeek.setTextColor(mode == Mode.WEEK ? getResources().getColor(R.color.text_primary) : getResources().getColor(R.color.text_secondary));
 
         tabMonth.setBackgroundResource(mode == Mode.MONTH ? R.drawable.tab_bg_selected : 0);
-        tabMonth.setTextColor(mode == Mode.MONTH ? Color.WHITE : Color.parseColor("#888888"));
+        tabMonth.setTextColor(mode == Mode.MONTH ? getResources().getColor(R.color.text_primary) : getResources().getColor(R.color.text_secondary));
 
         tabYear.setBackgroundResource(mode == Mode.YEAR ? R.drawable.tab_bg_selected : 0);
-        tabYear.setTextColor(mode == Mode.YEAR ? Color.WHITE : Color.parseColor("#888888"));
+        tabYear.setTextColor(mode == Mode.YEAR ? getResources().getColor(R.color.text_primary) : getResources().getColor(R.color.text_secondary));
 
         updateUI();
     }
@@ -223,7 +228,7 @@ public class StatsActivity extends AppCompatActivity {
             float[] hourBuckets = new float[24];
             for (DatabaseHelper.Session s : sessions) {
                 Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(s.timestampMs);
+                c.setTimeInMillis(s.endTimeMs);
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 hourBuckets[hour] += (s.durationMs / 60000f);
             }
@@ -235,7 +240,7 @@ public class StatsActivity extends AppCompatActivity {
             float[] dayBuckets = new float[7];
             for (DatabaseHelper.Session s : sessions) {
                 Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(s.timestampMs);
+                c.setTimeInMillis(s.endTimeMs);
                 int day = (c.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY + 7) % 7;
                 dayBuckets[day] += (s.durationMs / 60000f);
             }
@@ -248,7 +253,7 @@ public class StatsActivity extends AppCompatActivity {
             float[] dayBuckets = new float[daysInMonth];
             for (DatabaseHelper.Session s : sessions) {
                 Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(s.timestampMs);
+                c.setTimeInMillis(s.endTimeMs);
                 int day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 if (day >= 0 && day < daysInMonth) {
                     dayBuckets[day] += (s.durationMs / 60000f);
@@ -263,7 +268,7 @@ public class StatsActivity extends AppCompatActivity {
             float[] monthBuckets = new float[12];
             for (DatabaseHelper.Session s : sessions) {
                 Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(s.timestampMs);
+                c.setTimeInMillis(s.endTimeMs);
                 int month = c.get(Calendar.MONTH);
                 monthBuckets[month] += (s.durationMs / 60000f);
             }
@@ -294,7 +299,7 @@ public class StatsActivity extends AppCompatActivity {
         dataSet.setCircleColor(Color.parseColor("#4DB6AC"));
         dataSet.setCircleRadius(4f);
         dataSet.setDrawCircleHole(true);
-        dataSet.setCircleHoleColor(Color.parseColor("#1A1A1A"));
+        dataSet.setCircleHoleColor(getResources().getColor(R.color.card_bg));
         dataSet.setCircleHoleRadius(2f);
         dataSet.setDrawValues(false);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -312,10 +317,18 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private String formatDisplayDuration(long millis) {
-        int minutes = (int) (millis / (1000 * 60));
-        int hours = minutes / 60;
-        int mins = minutes % 60;
-        return String.format(Locale.getDefault(), "%dH %02dM", hours, mins);
+        int seconds = (int) (millis / 1000);
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int secs = seconds % 60;
+        
+        if (hours > 0) {
+            return String.format(Locale.getDefault(), "%dH %02dM", hours, minutes);
+        } else if (minutes > 0) {
+            return String.format(Locale.getDefault(), "%dM %02dS", minutes, secs);
+        } else {
+            return String.format(Locale.getDefault(), "0H %02dS", secs);
+        }
     }
 
     private Calendar getStartOfPeriod(Calendar current, Mode mode) {

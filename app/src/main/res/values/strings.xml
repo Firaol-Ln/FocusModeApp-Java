@@ -1,3 +1,64 @@
 <resources>
     <string name="app_name">Focus Mode Jv</string>
+    <string name="settings">Settings</string>
+
+    <!-- Sections -->
+    <string name="section_tools">Tools</string>
+    <string name="section_personalize">Personalize</string>
+    <string name="section_general">General</string>
+    <string name="section_privacy">Privacy</string>
+    <string name="section_about">About</string>
+
+    <!-- Tools -->
+    <string name="pref_floating_clock">Floating Clock</string>
+    <string name="pref_floating_clock_desc">Display a floating clock over other apps</string>
+    <string name="pref_widget">Clock Widget</string>
+    <string name="pref_widget_desc">Configure and add a home screen clock widget</string>
+    <string name="pref_wallpaper">Clock Wallpaper</string>
+    <string name="pref_wallpaper_desc">Preview and set flip clock as live wallpaper</string>
+    <string name="pref_standby">Standby Mode</string>
+    <string name="pref_standby_desc">Show time and date while charging</string>
+    <string name="pref_aod">Always-on Display</string>
+    <string name="pref_aod_desc">Display time on lock screen</string>
+    <string name="pref_reminder">Time Reminder</string>
+    <string name="pref_reminder_desc">Play sound every hour</string>
+    <string name="pref_quick_start">Quick Start Shortcut</string>
+    <string name="pref_quick_start_desc">Start timer instantly from home screen</string>
+
+    <!-- Personalize -->
+    <string name="pref_themes">Clock Themes</string>
+    <string name="pref_themes_desc">Preview and change timer appearance</string>
+    <string name="pref_accent_color">Accent Color</string>
+    <string name="pref_accent_color_desc">Select highlight color</string>
+    <string name="pref_brightness">Brightness</string>
+    <string name="pref_brightness_desc">Adjust screen brightness inside the app</string>
+    <string name="pref_language">Language</string>
+    <string name="pref_language_desc">Change application language</string>
+
+    <!-- General -->
+    <string name="pref_default_timer">Default Timer Duration</string>
+    <string name="pref_default_timer_desc">Set default focus time</string>
+    <string name="pref_default_break">Default Break Duration</string>
+    <string name="pref_default_break_desc">Set break duration</string>
+    <string name="pref_auto_start">Auto-start Next Session</string>
+    <string name="pref_auto_start_desc">Automatically start next cycle</string>
+    <string name="pref_vibration">Vibration Feedback</string>
+    <string name="pref_vibration_desc">Vibrate on interactions</string>
+    <string name="pref_keep_screen_on">Keep Screen On</string>
+    <string name="pref_keep_screen_on_desc">Prevent screen from sleeping during timer</string>
+    <string name="pref_timer_sound">Timer Sound</string>
+    <string name="pref_timer_sound_desc">Select alarm sound</string>
+    <string name="pref_dnd_mode">Do Not Disturb Mode</string>
+    <string name="pref_dnd_mode_desc">Silence notifications during focus sessions</string>
+
+    <!-- Privacy & About -->
+    <string name="pref_reset_data">Reset All Data</string>
+    <string name="pref_reset_data_desc">Clear all sessions and settings</string>
+    <string name="pref_share">Share App</string>
+    <string name="pref_share_desc">Share the app with others</string>
+
+    <string name="stopwatch">Stopwatch</string>
+    <string name="timer">Timer</string>
+    <string name="focus_time">Focus</string>
+    <string name="break_time">Break</string>
 </resources>

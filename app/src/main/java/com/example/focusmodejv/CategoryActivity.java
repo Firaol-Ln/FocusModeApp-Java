@@ -1,5 +1,6 @@
 package com.example.focusmodejv;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +10,11 @@ import com.example.focusmodejv.R;
 import com.google.android.material.card.MaterialCardView;
 
 public class CategoryActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

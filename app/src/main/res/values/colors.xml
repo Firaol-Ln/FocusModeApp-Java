@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="accent_color">#1DB954</color>
+
+    <!-- Light Mode Colors -->
+    <color name="screen_bg">#FFFFFF</color>
+    <color name="card_bg">#F5F5F5</color>
+    <color name="timer_box_bg">#F9F9F9</color>
+    <color name="bottom_sheet_surface">#FFFFFF</color>
+    <color name="tab_selected_bg">#E0E0E0</color>
+    <color name="tab_container_bg_color">#F0F0F0</color>
+    <color name="timer_card_bg_color">@color/card_bg</color>
+
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#555555</color>
+    <color name="text_on_accent">#FFFFFF</color>
+
+    <color name="icon_tint">#222222</color>
+    <color name="secondary_button_bg">#EEEEEE</color>
+
+    <!-- Settings UI Colors (Light Mode) -->
+    <color name="settings_bg">#FFFFFF</color>
+    <color name="settings_card">#F5F5F5</color>
+    <color name="settings_icon_bg">#E0E0E0</color>
+    <color name="settings_text_primary">#000000</color>
+    <color name="settings_text_secondary">#666666</color>
+    <color name="settings_section_header">#757575</color>
+
+    <color name="settings_switch_thumb_on">#FFC107</color>
+    <color name="settings_switch_track_on">#4DFFC107</color>
 </resources>

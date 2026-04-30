@@ -3,8 +3,15 @@
     package="com.example.focusmodejv"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
     <application
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="FocusModeJv"
         android:theme="@style/Theme.FocusModeJv">
 
@@ -17,6 +24,30 @@
             android:exported="false" />
 
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ConfigurationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PremiumActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ClockThemeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AccentColorActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".LanguageActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
@@ -26,6 +57,15 @@
             </intent-filter>
 
         </activity>
+
+        <receiver android:name=".ClockWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_clock_info" />
+        </receiver>
 
     </application>
 
